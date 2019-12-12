@@ -23,7 +23,7 @@ include "base.php";
             text-align:center;
         }
         textarea{
-            background-color:#FFC1E0;
+            background-color:#FFDDAA;
         }
     </style>
 </head>

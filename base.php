@@ -1,7 +1,7 @@
 <?php
 $dsn="mysql:host=localhost;charset=utf8;dbname=resume"; //連結資料庫
 $pdo=new PDO($dsn,'root','');
-
+// session_start();
 //查詢及取得特定條件的單筆資料
 function find($table,...$arg){//$arg 是一個陣列
     global $pdo;//轉全域變數(因為和資料庫有關)

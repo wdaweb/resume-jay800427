@@ -1,5 +1,5 @@
 <?php
-    include "base.php";
+    include "base.php";  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>履歷首頁</title>
     <link rel="stylesheet" href="./css/all.min.css">
+    <link rel="shortcut icon" href="./images/home.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700&display=swap');

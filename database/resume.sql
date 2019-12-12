@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2019-12-12 13:47:27
+-- 產生時間： 2019-12-12 16:13:11
 -- 伺服器版本： 10.4.6-MariaDB
 -- PHP 版本： 7.3.9
 
@@ -159,20 +159,21 @@ CREATE TABLE `work` (
   `id` int(168) UNSIGNED NOT NULL COMMENT '序列',
   `file` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '作品',
   `text` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '作品名稱',
-  `sh` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '顯示'
+  `sh` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '顯示',
+  `href` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '連結'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 傾印資料表的資料 `work`
 --
 
-INSERT INTO `work` (`id`, `file`, `text`, `sh`) VALUES
-(1, 'zombie.jpg', '打殭屍', '1'),
-(5, 'calendar.jpg', '萬年曆', '1'),
-(6, 'ticket.png', '發票', '1'),
-(7, 'view.png', '風景旅遊簡報', '1'),
-(8, 'clock.png', '時鐘', '1'),
-(9, 'joker.png', '發牌遊戲', '1');
+INSERT INTO `work` (`id`, `file`, `text`, `sh`, `href`) VALUES
+(1, 'zombie.jpg', '打殭屍', '1', 'zombie'),
+(5, 'calendar.jpg', '萬年曆', '1', 'calendar'),
+(6, 'ticket.png', '發票', '1', 'ticket'),
+(7, 'view.png', '風景旅遊簡報', '1', 'postcard'),
+(8, 'clock.png', '時鐘', '1', 'clock'),
+(9, 'joker.png', '發牌遊戲', '1', 'joker');
 
 --
 -- 已傾印資料表的索引
@@ -234,7 +235,7 @@ ALTER TABLE `creater`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `logo`
 --
 ALTER TABLE `logo`
-  MODIFY `id` int(15) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '序列', AUTO_INCREMENT=6;
+  MODIFY `id` int(15) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '序列', AUTO_INCREMENT=7;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `member`
@@ -264,7 +265,7 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `work`
 --
 ALTER TABLE `work`
-  MODIFY `id` int(168) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '序列', AUTO_INCREMENT=11;
+  MODIFY `id` int(168) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '序列', AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
