@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <title>打殭屍</title>
+    <style>
+        body{
+            font-family: 'Kaushan Script', cursive;
+            background-image: url(./images/windmills.jpg);
+            background-size:cover;
+        }
+        #game{
+            width:800px;
+            height:720px;
+            cursor: url(./images/04.png) 50 50, auto;
+            overflow: hidden;
+            position:relative;
+            background-image: url(./images/bg.png);
+            background-size:cover;
+            border-radius:10%;
+            top:50%;
+            left:23%;
+            box-shadow: 10px 10px 5px #888888;
+        }
+        h1{
+            text-align: center;
+            text-shadow: 5px 5px 5px #888888;
+            font-size:40px;
+        }
+        h3{
+            text-align: center;
+            text-shadow: 5px 5px 5px #888888;
+            color:red;
+            font-size:20px;
+        }
+        #game img{
+            position: absolute;
+            height:150px;
+        }
+        #list{
+            width:150px;
+            height:150px;
+            position:absolute;
+            background-color:burlywood;
+            border-radius:10px;
+            top:350px;
+            left:250px;
+            text-align: center;
+            line-height:40px;
+            font-size:18px;
+            box-shadow: 10px 10px 5px #888888;
+        }
+        #red{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <H1>我與我的快樂<span id="red">小夥伴</H1>
+    <H3>溫馨提醒:  ~~記得開音效喔~~ (o w <)</H3>
+    <div id="game"></div>
+    <div id="list">
+    <input type="button" value="開始遊戲" id="start">
+    <p>分數: <span id="score">0<span>分</p>
+    <p>剩餘: <span id="sec">5<span>秒</p>
+    </div>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script>
+        $(function(){
+            //分數
+            let score = 0;
+            //遊戲時間
+            let sec = 5;
+
+            //每秒產生殭屍的計時器
+            let zbtimer =  0;
+            //遊戲倒數計時
+            let gametimer = 0;
+
+            //殭屍流水號
+            let zbid = 0;
+
+            //隨機
+            let rand = (num) =>{
+                return Math.round(Math.random()*num);
+            }
+
+            // 移動殭屍
+            let movezb = (id) => {
+                $(`#zb${id}`).animate({
+                    left: rand(100)+"%",
+                    top: rand(100)+"%"
+                }, 3000, function(){
+                    movezb(id);
+                })
+                
+            }
+            //點選開始按鈕時
+            $("#start").on("click", function(){
+                //將按鈕停用
+                $(this).attr("disabled", true);
+                //開始時更換背景
+                $('#game').css('background-image','url(./images/bg.png)');
+                //重設時間及分數
+                sec = 10;
+                $("#sec").text(sec);
+                score = 0;
+                $("#score").text(score);
+
+                //開始倒數
+                gametimer = setInterval(() => {
+                    //秒數減1，修改文字
+                    sec--;
+                    $("#sec").text(sec);
+                    //如果到0
+                    if(sec == 0){
+                        clearInterval(gametimer);
+                        $(this).attr("disabled",false);
+                        setTimeout(() => {
+                            alert("時間到");
+                            
+                            $("#game img").remove();
+                            $('#game').css('background-image','url(./images/25.gif)');
+                        }, 100);
+                    }
+
+                    let num = rand(10);
+                    if(num > 0){
+                        $("#game").append(`<img src="./images/123.gif" id="zb${zbid}">`);
+                        $(`#zb${zbid}`).css({left: rand(100)+"%",top: rand(100)+"%"});
+                        movezb(zbid);
+                        zbid++;
+                    }
+                }, 1200);
+
+            })
+            //音效
+            $(function()
+                {
+                    $('<audio id="myAudio"><source src="./audio/scream.wav" type="audio/wav"></audio>').appendTo('body');
+                });
+
+          //點擊圖片發生的事件
+            $("#game").on("click", "img",function()
+            {
+                $('#myAudio')[0].play();//撥放聲音
+                $(this).fadeTo(800, 0, function()
+                    {
+                       $(this).attr("src","./images/blood.png")
+                       $(this).fadeTo(700, 1, function(){})
+                    })
+        
+                $(this).stop();
+                $(this).css("pointer-events","none");
+                score++;
+                $("#score").text(score);
+            })
+        })
+    </script>
+    
+</body>
+</html>

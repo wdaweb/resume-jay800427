@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <title>時鐘</title>
+    <style>
+
+       body { /*字型和背景 */
+            font-family: 'Kaushan Script', cursive;
+            background-image: url(city.jpg);
+            background-repeat: no-repeat;/*圖片不要重複*/
+            background-attachment: fixed;/*圖片固定*/
+            background-size:100% 100%;/*圖片預設大小*/
+            opacity: 0.7;/*透明度0.7*/
+            z-index:-2;/*使圖片浮起來*/
+            }
+    #clock{/*時鐘本體*/
+        width:500px;
+        height:500px;
+        border-radius: 50%;
+        background-image:url(clock1.png);
+        background-size:cover;
+        position: relative;
+        border-style: outset;
+        border-width:3px; 
+        border-color:#939699;
+        margin: auto;
+        box-shadow: 10px 10px 5px #FFFFBB;
+    }
+
+    #second{/*秒針*/
+        position: relative;
+        width:50%;
+        height:6px;
+        top: calc(50% - 3px);/*計算中間一定要空白*/
+        transform: rotate(90deg);
+        transform-origin: right center;
+        border-radius: 3px;
+    }
+    #minute{/*分針*/
+        position:absolute;
+        width:45%;
+        left:5%;
+        height:6px;
+        top: calc(50% - 3px);/*計算中間一定要空白*/
+        transform: rotate(90deg);
+        transform-origin: right center;
+        border-radius: 3px;
+        
+    }
+    #hour{/*時針*/
+        position:absolute;
+        width:25%;
+        left:25%;
+        height:6px;
+        top: calc(50% - 3px);/*計算中間一定要空白*/
+        transform: rotate(90deg);
+        transform-origin: right center;
+        border-radius: 3px;
+        
+    }
+    #time{/*現在時間*/
+        font-size: 50px;
+        color:white;
+        position:absolute;
+        top:57%;
+        left:5%;
+    }
+    #img1{/*時針圖形*/
+        width:220%;
+        position:absolute;
+        top:-106px;
+        left:-78px;
+        transform-origin: right center;/*OK*/
+    } 
+    #img2{/*分針圖形*/
+        width:130%;
+        position:absolute;
+        top:39px;
+        left:-164px;
+        transform: rotate(90deg);
+        transform-origin: right center;
+    }
+    #img3{/*秒針圖形*/
+        width:110%;
+        position:absolute;
+        top:-46px;
+        left:-120px;
+        transform: rotate(90deg);
+        transform-origin: right center;
+    }
+   
+    
+  #box1{/*同心圓*/
+    width:15px; height:15px;
+    position:absolute;
+    top:225px;
+    left:227px;
+    padding: 10px;
+    border: 10px solid;/*框線粗體10px*/
+    border-color:#444444;
+    border-right: 10px solid #fff;/*右方框線(白色)*/
+	border-bottom: 10px solid #fff;/*下方框線(白色)*/
+    border-radius: 50%;
+    background-color: #FFEE99;
+     opacity: 0.92;/*透明度0.92*/
+    /* 動畫名子 */
+    animation-name: move;
+            /* 動畫長度 */
+    animation-duration: 6s;
+            /* 播放次數
+                數字，或是無限 infinite
+             */
+     animation-iteration-count: infinite;
+            /* animation-timing-function: linear; 線性播放*/
+    animation-timing-function: linear;
+     
+  }
+    /* move 動畫 */
+    @keyframes move{
+        from {
+		transform: rotate(0deg);/* 從0度開始旋轉 */
+	}
+	to {
+		transform: rotate(360deg);/* 到360度 */
+	}     
+        }
+
+
+  #box2{/*中心圓*/
+    width:18px; height:18px;
+    position:absolute;
+    top:243px;
+    left:246px;
+     border-radius: 50%;
+     background-color: #444444;
+     opacity: 0.92;
+     
+  }
+ 
+ #b{/*虛線圓*/
+     width:247px;
+     height:247px;
+     position:absolute;
+     top:130px;
+     left:125px;
+     border-radius:50%;
+     border:3px dashed ;
+     border-color: blue red green orange;
+
+      /* 動畫名子 */
+    animation-name: move2;
+            /* 動畫長度 */
+    animation-duration: 6s;
+            /* 播放次數
+                數字，或是無限 infinite
+             */
+     animation-iteration-count: infinite;
+            /* animation-timing-function: linear; 線性播放*/
+    animation-timing-function: linear;
+     }
+     @keyframes move2{
+        from {
+		transform: rotate(0deg);/* 從0度開始旋轉 */
+	}
+	to {
+		transform: rotate(360deg);/* 到360度 */
+	}     
+        }
+    </style>
+</head>
+<body>
+        
+    <div id="clock">
+        <div id="hour"><img src="hour.png" id='img1'></div>
+        <div id="minute"><img src="minute.png" id='img2'></div>
+        <div id="second"><img src="second.png" id='img3'></div>
+        <div id="box1"></div>
+        <div id="box2"></div>
+        <div id="b"></div>
+        <div id="clock1"></div>
+    </div>
+    <span id="time"></span>
+    <script>
+       let hour = document.getElementById("hour");
+       let minute = document.getElementById("minute");
+       let second = document.getElementById("second");
+       let time = document.getElementById("time");
+
+
+       let clock = () =>{
+           let date = new Date();
+           let h = date.getHours();
+           let m = date.getMinutes();
+           let s = date.getSeconds();
+           hour.style.transform = `rotate( ${h*30+90}deg)`;
+           minute.style.transform = `rotate( ${m*6+90}deg)`;
+           second.style.transform = `rotate( ${s*6+90}deg)`;
+
+           let y =date.getFullYear();
+           let mon = date.getMonth()+1;
+           let d = date.getDate();
+
+           time.innerText = y+"年"+mon+"月"+d+"日"+h+"點"+m+"分"+s+"秒";
+           // time.innerText = date.toLocaleString("zh-tw");
+    }
+
+    clock();
+    setInterval(clock,1000);
+    </script>
+</body>
+</html>

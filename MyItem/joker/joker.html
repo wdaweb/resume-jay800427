@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>撲克牌</title>
+    <style>
+        #game{
+            width:500px;
+            height:500px;
+            background-color:blanchedalmond;
+            margin:auto;
+        }
+        .card{
+            width:100px;
+            height:100px;
+            transform-style: preserve-3d;/*設定子元素在3D空間內*/
+            position: relative;
+            transition:transform 0.5s;/*延遲效果*/
+            float:left;/**/
+            margin: 10px;/*上下左右都留10px*/
+        }
+        .open{/*整張翻牌*/
+            transform:rotateY(180deg);
+            /* transform:rotateZ(360deg); */
+        }
+        .front{
+            width: 100%;
+            height: 100%;
+            background-image:url(./card/Red_back.jpg);
+            background-position:center;/* 背景圖片(牌)的位置:置中*/
+            background-size:contain;/*背景圖片大於容器，會呈現在容器內*/
+            background-repeat:no-repeat;/*背景圖片(牌)不要重複*/
+            position:absolute;
+
+        }
+        .back{
+            width:100%;
+            height:100%;
+            background-position:center;/* 背景圖片(牌背面)的位置:置中*/
+            background-size:contain;
+            background-repeat:no-repeat;
+            position:absolute;
+            transform:rotateY(180deg);  
+
+        }
+    </style>
+</head>
+<body>
+    <div id="game"></div>
+    <input type="button" value="開始遊戲" id="start">
+    <p>切牌時間: <span id="sec1">0</span>秒</p>
+    <p>已經過: <span id="sec">0</span>秒</p>
+    <p>分數: <span id="score">0</span>分</p>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script>
+        
+
+        $(function()
+        {
+                //遊戲時間
+                let sec = 0;
+                //分數
+                let score = 0;
+                //遊戲初始時間
+                let gametimer = 0;
+                //產生16張卡片
+                for(let i=0;i<16;i++)   
+                {
+                $("#game").append(/*html*/`<div class="card">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                        </div>
+                   `)
+                }
+                 for(let i=0;i<$(".card").length;i++){
+                     /*
+                        每個數字要有兩個才能消掉
+                        以16張牌來說，就有八組數字
+                        以1 / 8的餘數來判斷要加哪張牌
+                        因為牌號是從1開始，所以要加1
+                     */
+                    let add = i % ($(".card").length / 2 ) + 1;
+                    $(".card").eq(i).find(".back").css("background-image", `url(./card/${add}S.jpg)`);
+                    $(".card").eq(i).attr("data-card", add); 
+
+                    //隨機取一張牌，將他放在目前迴圈跑到的牌後
+                    //*為何不用round的原因是
+                    let target = Math.floor(Math.random()*$(".card").length);
+                    $(".card").eq(target).insertAfter($(".card").eq(i));
+                }
+
+                //開始時，蓋牌
+            $("#start").on("click",function(){
+                $(this).attr("disabled", true);//將按鈕停用
+                  //重設遊戲時間
+                  let sec = 0;
+                $("#sec").text(sec);
+                let score = 0;
+                $("#score").text(score);
+                
+
+                
+              
+                //開始計時
+                gametimer = setInterval(() => { 
+                    sec++;
+                    $("#sec").text(sec);
+                    
+                if(sec < 2){
+                    $('.back').css('transform',' scale(-1)');
+                    $('.front').css('background-position',"left");
+                    $('.back').css('background-position',"left");
+                }else{
+                    $('.back').css('transform','rotateY(180deg)');
+                    $('.front').css('background-position',"center");
+                    $('.back').css('background-position',"center");
+                    //當卡片被點擊時的事件
+                    $(".card").on("click",function()
+                    {
+                    //如果牌數小於兩張，且這張牌沒有被打開的話
+                    if( $(".open").length < 2 && !$(this).hasClass("open")){
+                        $(this).addClass("open");
+                    }
+
+
+                    //如果翻開兩張了
+                    if($(".open").length === 2 )
+                    {
+                        //一秒後翻回來
+                        setTimeout(() => {
+                            $(".open").removeClass("open");
+                        }, 1000)
+
+                        //如果兩張一樣，淡出
+                        if($(".open").eq(0).attr("data-card") === $(".open").eq(1).attr("data-card")){  
+                            $(".open").fadeTo(1000,0).addClass("clear"); 
+                            $(this).css("pointer-events","none");//已經點過的事件，分數就不會往上加
+                            score++;
+                            $("#score").text(score);
+                        }
+
+                        //如果全部都clear
+                        console.log($("#score").length);
+                        if($(".clear").length === $(".card").length)    
+                            {
+                                setTimeout(() => {
+                                    alert("恭喜過關");
+                                             }, 500);
+                                clearInterval(gametimer);
+                                $("#start").attr("disabled", false);//將按紐打開
+                            }
+                    }
+                    
+                })
+                       }   
+                //如果到0的話
+                    if(sec == 0){
+                        clearInterval(gametimer);
+                        $(this).attr("disabled", false);
+                        setTimeout(()=>{
+                            alert("時間到囉~速速投降");
+                        },100)
+                    }
+                }, 1000);
+               
+            })
+        })
+    </script>
+
+</body>
+</html>
