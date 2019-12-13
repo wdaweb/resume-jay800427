@@ -1,4 +1,9 @@
-
+<?php
+ session_start();
+if(!empty($_SESSION['login'])){ //如果登入進去有值的話
+  header("location:new.php");//會被導入回後台
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,6 +61,7 @@
         background-color:blue;
         border-radius:10px;
         top:220px;
+        box-shadow: 8px 8px 3px #7A7A7A; 
     }
     .main2{
         position:absolute;

@@ -1,3 +1,10 @@
+<?php 
+session_start();
+if(empty($_SESSION['login'])){//如果登入沒有值的話
+  header("location:login.php");//導回登入頁面
+  exit();//程式執行到這裡就結束
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +32,7 @@
             background-color: #FFDDAA;
             margin:auto;
             border-radius:10px 10px 20px 20px;
+            box-shadow: 8px 8px 3px #7A7A7A; 
                 }
         .menu{/*選單區塊 */
             width: 75%;
@@ -149,7 +157,7 @@
     <!-- 選單 -->
            
     <div class="contain">
-            <div id="main">後&nbsp;台&nbsp;編&nbsp;輯&nbsp;區<i class="fas fa-sign-out-alt"input type="button" onclick="location.href='login.php'" value="會員登入" style="float:left"></i>      
+            <div id="main">後&nbsp;台&nbsp;編&nbsp;輯&nbsp;區<i class="fas fa-sign-out-alt"input type="button" onclick="location.href='logout.php'" value="登出" style="float:left"></i>      
             </div>
             <div class="menu">
                 <div id="box1"><a href="?do=member" class="link">個人資料</a></div>
